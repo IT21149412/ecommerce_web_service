@@ -1,0 +1,76 @@
+# ASP.NET Core Build Folders
+bin/
+obj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# OS generated files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Rider/JetBrains IDE files
+.idea
+.idea/*
+
+# Visual Studio Code files
+.vscode/
+.vscode/*
+
+# Logs
+*.log
+*.log.*
+
+# Environment variable files
+.env
+
+# Node.js modules (if applicable)
+node_modules/
+
+# Package directories for front-end assets (if applicable)
+bower_components/
+
+# Publish outputs
+publish/
+*.pubxml
+*.publishproj
+
+# NPM Debug files
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Lock files (optional)
+project.lock.json
+project.fragment.lock.json
+
+# VS Code settings folder
+.vscode/
