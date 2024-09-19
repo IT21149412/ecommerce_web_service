@@ -21,6 +21,8 @@ var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET")
 builder.Services.AddSingleton<MongoDbContext>(sp => new MongoDbContext(mongoDbConnectionString, databaseName));
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<CategoryService>();
+
 
 builder.Services.AddSingleton(new TokenService(jwtSecret));
 

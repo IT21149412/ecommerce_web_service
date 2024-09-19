@@ -65,4 +65,20 @@ public class ProductService
         var update = Builders<Product>.Update.Set(p => p.IsActive, false);
         await _products.UpdateOneAsync(product => product.Id == id, update);
     }
+
+    // Deactivate all products under a specific category
+    public async Task DeactivateProductsByCategoryAsync(string categoryId)
+    {
+        var filter = Builders<Product>.Filter.Eq(p => p.CategoryId, categoryId);
+        var update = Builders<Product>.Update.Set(p => p.IsActive, false); // Deactivate all products
+        await _products.UpdateManyAsync(filter, update);
+    }
+
+    // Activate all products under a specific category
+    public async Task ActivateProductsByCategoryAsync(string categoryId)
+    {
+        var filter = Builders<Product>.Filter.Eq(p => p.CategoryId, categoryId);
+        var update = Builders<Product>.Update.Set(p => p.IsActive, true); // Activate all products
+        await _products.UpdateManyAsync(filter, update);
+    }
 }

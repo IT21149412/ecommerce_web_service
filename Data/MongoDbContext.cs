@@ -13,5 +13,7 @@ public class MongoDbContext
     // Define collections here. Example:
     public IMongoCollection<User> Users => _db.GetCollection<User>("Users");
     public IMongoCollection<Product> Products => _db.GetCollection<Product>("Products");
+    public IMongoCollection<Category> Categories => _db.GetCollection<Category>("Categories");
+
 
 }

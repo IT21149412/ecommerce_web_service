@@ -2,7 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-public class Product
+public class Category
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
@@ -10,19 +10,7 @@ public class Product
 
     public string Name { get; set; } = string.Empty;
 
-    public string Description { get; set; } = string.Empty;
-
-    public decimal Price { get; set; }
-
-    public int Stock { get; set; }
-
     public bool IsActive { get; set; } = true;
 
-    public string CategoryId { get; set; }
-
-    public string VendorId { get; set; } = string.Empty; // Vendor's Id who created the product
-
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    public DateTime? UpdatedAt { get; set; }
 }
