@@ -26,6 +26,7 @@ public class UserController : ControllerBase
 
     // POST: api/user/register
     [HttpPost("register")]
+    // [Authorize(Roles = "Administrator")] // Only Admin can register new users
     public async Task<ActionResult> Register([FromBody] User user)
     {
         var existingUser = await _userService.GetUserByEmailAsync(user.Email);
@@ -39,6 +40,7 @@ public class UserController : ControllerBase
     }
 
     // POST: api/user/login
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
@@ -64,5 +66,67 @@ public class UserController : ControllerBase
             return NotFound();
         }
         return Ok(user);
+    }
+
+    // PUT: api/User/{id}/update
+    [HttpPut("{id}/update")]
+    [Authorize(Roles = "Administrator")]  // Only Administrator can update user details
+    public async Task<IActionResult> UpdateUser(string id, [FromBody] User updatedUser)
+    {
+        var user = await _userService.GetUserByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        await _userService.UpdateUserAsync(id, updatedUser);
+        return Ok("User updated successfully.");
+    }
+
+    // PUT: api/user/{id}/deactivate
+    [HttpPut("{id}/deactivate")]
+    [Authorize(Roles = "Administrator,CSR")] // Admin and CSR can deactivate user accounts
+    public async Task<ActionResult> DeactivateUser(string id)
+    {
+        var user = await _userService.GetUserByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        user.IsActive = false;
+        await _userService.UpdateUserAsync(id, user);
+        return Ok("User deactivated successfully.");
+    }
+
+    // PUT: api/user/{id}/activate
+    [HttpPut("{id}/activate")]
+    [Authorize(Roles = "Administrator,CSR")] // Admin and CSR can activate user accounts
+    public async Task<ActionResult> ActivateUser(string id)
+    {
+        var user = await _userService.GetUserByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        user.IsActive = true;
+        await _userService.UpdateUserAsync(id, user);
+        return Ok("User activated successfully.");
+    }
+
+    // DELETE: api/user/{id}
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrator")] // Only Admin can delete users
+    public async Task<ActionResult> DeleteUser(string id)
+    {
+        var user = await _userService.GetUserByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        await _userService.DeleteUserAsync(id);
+        return Ok("User deleted successfully");
     }
 }
