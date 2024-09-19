@@ -15,12 +15,13 @@ var databaseName = Environment.GetEnvironmentVariable("DATABASE_NAME")
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET")
     ?? throw new InvalidOperationException("JWT_SECRET is not set.");
 
-Console.WriteLine($"JWT_SECRET: {jwtSecret}");
 
 
 // Register MongoDbContext and services
 builder.Services.AddSingleton<MongoDbContext>(sp => new MongoDbContext(mongoDbConnectionString, databaseName));
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductService>();
+
 builder.Services.AddSingleton(new TokenService(jwtSecret));
 
 // JWT Authentication setup
