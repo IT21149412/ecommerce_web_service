@@ -1,39 +1,62 @@
-using DotNetEnv;  // For loading environment variables
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load environment variables from .env file
-Env.Load();
+// Load environment variables
+DotNetEnv.Env.Load();
 
 // Fetch connection string and database name from environment variables
-var mongoDbConnectionString = Environment.GetEnvironmentVariable("MONGO_DB_CONNECTION_STRING");
-var databaseName = Environment.GetEnvironmentVariable("DATABASE_NAME");
+var mongoDbConnectionString = Environment.GetEnvironmentVariable("MONGO_DB_CONNECTION_STRING")
+    ?? throw new InvalidOperationException("MONGO_DB_CONNECTION_STRING is not set.");
+var databaseName = Environment.GetEnvironmentVariable("DATABASE_NAME")
+    ?? throw new InvalidOperationException("DATABASE_NAME is not set.");
+var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET")
+    ?? throw new InvalidOperationException("JWT_SECRET is not set.");
 
-// Ensure that environment variables are properly loaded
-if (string.IsNullOrEmpty(mongoDbConnectionString) || string.IsNullOrEmpty(databaseName))
-{
-    throw new InvalidOperationException("MongoDB connection string or database name is missing from environment variables.");
-}
+Console.WriteLine($"JWT_SECRET: {jwtSecret}");
 
-// Add MongoDbContext as a singleton service
+
+// Register MongoDbContext and services
 builder.Services.AddSingleton<MongoDbContext>(sp => new MongoDbContext(mongoDbConnectionString, databaseName));
-
-// Register services (e.g., UserService, ProductService)
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ProductService>();
+builder.Services.AddSingleton(new TokenService(jwtSecret));
+
+// JWT Authentication setup
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Token failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("Token validated successfully.");
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 // Add controllers
 builder.Services.AddControllers();
-
-// Add Swagger/OpenAPI for API documentation
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware setup
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -42,9 +65,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); // Use JWT authentication middleware
 app.UseAuthorization();
 
-// Map API routes
 app.MapControllers();
 
 app.Run();
