@@ -48,8 +48,8 @@ Temporary Items
 *.log
 *.log.*
 
-# Environment variable files
-.env
+# # Environment variable files
+# .env
 
 # Node.js modules (if applicable)
 node_modules/
