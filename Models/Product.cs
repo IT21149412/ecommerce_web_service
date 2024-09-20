@@ -25,4 +25,9 @@ public class Product
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; }
+
+    // Inventory-related fields
+    public bool IsLowStock => Stock < 5;  // Flag if low stock
+    public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
+
 }

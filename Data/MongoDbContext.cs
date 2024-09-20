@@ -14,6 +14,7 @@ public class MongoDbContext
     public IMongoCollection<User> Users => _db.GetCollection<User>("Users");
     public IMongoCollection<Product> Products => _db.GetCollection<Product>("Products");
     public IMongoCollection<Category> Categories => _db.GetCollection<Category>("Categories");
-
+    public IMongoCollection<Order> Orders => _db.GetCollection<Order>("Orders");
+    public IMongoCollection<VendorReview> VendorReviews => _db.GetCollection<VendorReview>("VendorReviews");
 
 }

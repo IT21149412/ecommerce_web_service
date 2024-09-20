@@ -39,6 +39,7 @@ public class UserController : ControllerBase
         return Ok("User registered successfully");
     }
 
+
     // POST: api/user/login
     [AllowAnonymous]
     [HttpPost("login")]
@@ -129,4 +130,23 @@ public class UserController : ControllerBase
         await _userService.DeleteUserAsync(id);
         return Ok("User deleted successfully");
     }
+
+    //vendor
+    // POST: api/user/register-vendor
+    [HttpPost("register-vendor")]
+    [Authorize(Roles = "Administrator")] // Only Admin can register vendors
+    public async Task<ActionResult> RegisterVendor([FromBody] User user)
+    {
+        var existingUser = await _userService.GetUserByEmailAsync(user.Email);
+        if (existingUser != null)
+        {
+            return BadRequest("User with the provided email already exists.");
+        }
+
+        // Assign the role of Vendor
+        user.Role = "Vendor";
+        await _userService.CreateUserAsync(user);
+        return Ok("Vendor registered successfully");
+    }
+
 }

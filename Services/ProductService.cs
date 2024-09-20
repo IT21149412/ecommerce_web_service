@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 public class ProductService
 {
     private readonly IMongoCollection<Product> _products;
+    private readonly OrderService _orderService; // Declare OrderService
 
-    public ProductService(MongoDbContext context)
+    public ProductService(MongoDbContext context, OrderService orderService) // Inject OrderService properly
     {
         _products = context.Products;
+        _orderService = orderService;  // Initialize the OrderService
     }
 
     // Get all products (Admin/CSR can view all)
@@ -46,12 +48,6 @@ public class ProductService
         }
     }
 
-    // Delete product (Vendor only)
-    public async Task DeleteProductAsync(string id)
-    {
-        await _products.DeleteOneAsync(product => product.Id == id);
-    }
-
     // Activate product (Vendor/Admin only)
     public async Task ActivateProductAsync(string id)
     {
@@ -80,5 +76,38 @@ public class ProductService
         var filter = Builders<Product>.Filter.Eq(p => p.CategoryId, categoryId);
         var update = Builders<Product>.Update.Set(p => p.IsActive, true); // Activate all products
         await _products.UpdateManyAsync(filter, update);
+    }
+
+    //inventory related services
+    // Update the stock of a product
+    public async Task UpdateStockAsync(string productId, int newStock)
+    {
+        var update = Builders<Product>.Update
+            .Set(p => p.Stock, newStock)  // Update the Stock field
+            .Set(p => p.LastUpdated, DateTime.UtcNow);
+
+        await _products.UpdateOneAsync(p => p.Id == productId, update);
+    }
+
+    // Check if the product is in low stock
+    public async Task<bool> IsLowStockAsync(string productId)
+    {
+        var product = await _products.Find(p => p.Id == productId).FirstOrDefaultAsync();
+        return product != null && product.IsLowStock;
+    }
+
+    // Delete a product (ensure no pending orders exist)
+    public async Task DeleteProductAsync(string productId)
+    {
+        // Check if the product is part of any pending orders
+        var hasPendingOrders = await _orderService.HasPendingOrdersForProductAsync(productId);
+
+        if (hasPendingOrders)
+        {
+            throw new InvalidOperationException("Cannot delete product because it is part of a pending order.");
+        }
+
+        // If no pending orders, proceed with deletion
+        await _products.DeleteOneAsync(p => p.Id == productId);
     }
 }

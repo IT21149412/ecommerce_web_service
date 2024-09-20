@@ -3,14 +3,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims; // For ClaimTypes and FindFirstValue
 
-
 [ApiController]
 [Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
     private readonly ProductService _productService;
 
-    public ProductController(ProductService productService)
+    public ProductController(ProductService productService) // Correct the constructor
     {
         _productService = productService;
     }
@@ -68,12 +67,19 @@ public class ProductController : ControllerBase
     }
 
     // DELETE: api/product/{id}/delete
-    [HttpDelete("{id}/delete")]
-    [Authorize(Roles = "Vendor,Administrator")] // Vendors or Admins can delete products
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Vendor, Administrator")]
     public async Task<ActionResult> DeleteProduct(string id)
     {
-        await _productService.DeleteProductAsync(id);
-        return Ok("Product deleted successfully");
+        try
+        {
+            await _productService.DeleteProductAsync(id);
+            return Ok("Product deleted successfully.");
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message); // Return error if product is part of a pending order
+        }
     }
 
     // PUT: api/product/{id}/activate
