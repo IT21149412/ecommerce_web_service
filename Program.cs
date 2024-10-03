@@ -15,8 +15,6 @@ var databaseName = Environment.GetEnvironmentVariable("DATABASE_NAME")
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET")
     ?? throw new InvalidOperationException("JWT_SECRET is not set.");
 
-
-
 // Register MongoDbContext and services
 builder.Services.AddSingleton<MongoDbContext>(sp => new MongoDbContext(mongoDbConnectionString, databaseName));
 builder.Services.AddScoped<UserService>();
@@ -25,8 +23,17 @@ builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<VendorReviewService>();
 
-
 builder.Services.AddSingleton(new TokenService(jwtSecret));
+
+// CORS setup: Allow requests from localhost:3000 (React app)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy.WithOrigins("http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());  // Adjust if you need to allow credentials
+});
 
 // JWT Authentication setup
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -69,6 +76,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use CORS policy before authentication and authorization middleware
+app.UseCors("AllowReactApp");
+
+app.UseCors(builder =>
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader());
+
 
 app.UseAuthentication(); // Use JWT authentication middleware
 app.UseAuthorization();
