@@ -33,7 +33,7 @@ public class UserService
     // Create a new user
     public async Task CreateUserAsync(User user)
     {
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash); // Hash password before storing
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password); // Hash password before storing
         await _users.InsertOneAsync(user);
     }
 
@@ -57,9 +57,9 @@ public class UserService
                 updateDefinition.Add(updateDefinitionBuilder.Set(u => u.Email, updatedUser.Email));
             }
             
-            if (!string.IsNullOrEmpty(updatedUser.PasswordHash))
+            if (!string.IsNullOrEmpty(updatedUser.Password))
             {
-                updateDefinition.Add(updateDefinitionBuilder.Set(u => u.PasswordHash, updatedUser.PasswordHash));
+                updateDefinition.Add(updateDefinitionBuilder.Set(u => u.Password, updatedUser.Password));
             }
             
             if (!string.IsNullOrEmpty(updatedUser.Role))
@@ -91,7 +91,7 @@ public class UserService
     public async Task<User> AuthenticateAsync(string email, string password)
     {
         var user = await GetUserByEmailAsync(email);
-        if (user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+        if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
         {
             return user;
         }

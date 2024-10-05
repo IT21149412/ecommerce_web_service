@@ -17,7 +17,7 @@ public class User
     public string Email { get; set; } = string.Empty; 
 
     // The hashed password of the user (should never store plain text passwords)
-    public string PasswordHash { get; set; } = string.Empty;  // Store hashed passwords
+    public string Password { get; set; } = string.Empty;  // Store hashed passwords
 
     // The role of the user, could be 'Administrator', 'Vendor', or 'CSR'
     public string Role { get; set; } = "User"; // Administrator, Vendor, CSR
