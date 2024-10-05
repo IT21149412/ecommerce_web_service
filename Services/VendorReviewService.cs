@@ -49,4 +49,10 @@ public class VendorReviewService
         var update = Builders<VendorReview>.Update.Set(r => r.Comment, newComment);
         await _reviews.UpdateOneAsync(review => review.Id == reviewId, update);
     }
+
+    // Get all reviews
+    public async Task<List<VendorReview>> GetAllReviewsAsync()
+    {
+        return await _reviews.Find(review => true).ToListAsync();
+    }
 }

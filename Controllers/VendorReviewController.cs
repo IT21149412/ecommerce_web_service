@@ -80,4 +80,31 @@ public class VendorReviewController : ControllerBase
         return Ok("Comment updated successfully.");
     }
 
+    // GET: api/vendor-review
+    [HttpGet]
+    [AllowAnonymous] // This allows anyone to fetch the vendor reviews, or restrict based on admin only
+    public async Task<ActionResult> GetAllVendorReviews()
+    {
+        var reviews = await _reviewService.GetAllReviewsAsync();
+        var vendorReviewsWithUsers = new List<object>();
+
+        foreach (var review in reviews)
+        {
+            // Fetch vendor details
+            var vendor = await _userService.GetUserByIdAsync(review.VendorId);
+            if (vendor != null && vendor.Role == "Vendor")
+            {
+                vendorReviewsWithUsers.Add(new
+                {
+                    VendorName = vendor.Name,
+                    VendorId = vendor.Id,
+                    Review = review
+                });
+            }
+        }
+
+        return Ok(vendorReviewsWithUsers);
+    }
+
+
 }
