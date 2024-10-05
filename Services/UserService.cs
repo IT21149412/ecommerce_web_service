@@ -67,6 +67,9 @@ public class UserService
                 updateDefinition.Add(updateDefinitionBuilder.Set(u => u.Role, updatedUser.Role));
             }
 
+            // Handle isActive field explicitly, as it's a boolean (no need for string check)
+            updateDefinition.Add(updateDefinitionBuilder.Set(u => u.IsActive, updatedUser.IsActive));
+
             // If there are updates to apply
             if (updateDefinition.Count > 0)
             {

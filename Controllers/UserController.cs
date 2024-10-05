@@ -58,7 +58,7 @@ public class UserController : ControllerBase
 
     // GET: api/user/{id}
     [HttpGet("{id}")]
-    [Authorize(Roles = "Administrator,CSR")] // Admin and CSR can view users
+    // [Authorize(Roles = "Administrator,CSR")] 
     public async Task<ActionResult<User>> GetUserById(string id)
     {
         var user = await _userService.GetUserByIdAsync(id);
@@ -71,7 +71,7 @@ public class UserController : ControllerBase
 
     // PUT: api/User/{id}/update
     [HttpPut("{id}/update")]
-    [Authorize(Roles = "Administrator")]  // Only Administrator can update user details
+    [Authorize(Roles = "Administrator,CSR")]  // Only Administrator and csr can update user details
     public async Task<IActionResult> UpdateUser(string id, [FromBody] User updatedUser)
     {
         var user = await _userService.GetUserByIdAsync(id);
@@ -79,6 +79,9 @@ public class UserController : ControllerBase
         {
             return NotFound("User not found.");
         }
+
+        // Explicitly set the isActive field
+        user.IsActive = updatedUser.IsActive;
 
         await _userService.UpdateUserAsync(id, updatedUser);
         return Ok("User updated successfully.");
