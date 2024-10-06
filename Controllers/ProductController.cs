@@ -99,4 +99,12 @@ public class ProductController : ControllerBase
         await _productService.DeactivateProductAsync(id);
         return Ok("Product deactivated successfully");
     }
+
+    [HttpGet("vendor/{vendorId}")]
+    [Authorize(Roles = " Vendor")]
+    public async Task<ActionResult<List<Product>>> GetProductsByVendorId(string vendorId)
+    {
+        var products = await _productService.GetProductsByVendorIdAsync(vendorId);   
+        return Ok(products);
+    }
 }

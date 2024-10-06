@@ -110,4 +110,10 @@ public class ProductService
         // If no pending orders, proceed with deletion
         await _products.DeleteOneAsync(p => p.Id == productId);
     }
+
+    //get products by vendor  
+        public async Task<List<Product>> GetProductsByVendorIdAsync(string vendorId)
+    {
+        return await _products.Find(product => product.VendorId == vendorId).ToListAsync();  
+    }
 }
