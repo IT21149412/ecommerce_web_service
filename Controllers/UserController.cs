@@ -17,7 +17,7 @@ public class UserController : ControllerBase
 
     // GET: api/user
     [HttpGet]
-    [Authorize(Roles = "Administrator")] // Only Admins can view all users
+    [Authorize(Roles = "Administrator,CSR")] // Only Admins can view all users
     public async Task<ActionResult> GetUsers()
     {
         var users = await _userService.GetUsersAsync();
