@@ -125,6 +125,12 @@ public class OrderService
         return await _orders.Find(order => order.CustomerId == customerId).ToListAsync();
     }
 
+    public async Task<List<Order>> GetOrdersByVendorIdAsync(string vendorId)
+    {
+        return await _orders.Find(order => order.VendorId == vendorId).ToListAsync();  
+    }
+
+
     // Check if there are any pending orders containing the given product
     public async Task<bool> HasPendingOrdersForProductAsync(string productId)
     {

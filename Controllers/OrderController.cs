@@ -91,4 +91,13 @@ public class OrderController : ControllerBase
         var orders = await _orderService.GetOrdersByCustomerIdAsync(customerId);
         return Ok(orders);
     }
+
+    [HttpGet("vendor/{vendorId}")]
+    [Authorize(Roles = " Vendor")]
+    public async Task<ActionResult<List<Order>>> GetOrdersByVendorId(string vendorId)
+    {
+        var orders = await _orderService.GetOrdersByVendorIdAsync(vendorId);   
+        return Ok(orders);
+    }
+
 }

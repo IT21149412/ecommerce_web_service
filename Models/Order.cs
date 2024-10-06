@@ -20,6 +20,7 @@ public class Order
 
     // Add TotalOrderPrice field
     public decimal TotalOrderPrice { get; set; }  // Total price for the order
+    public string VendorId { get; set; } = string.Empty;
 }
 
 public class OrderItem
