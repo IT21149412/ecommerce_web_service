@@ -102,7 +102,7 @@ public class UserController : ControllerBase
 
     // PUT: api/user/{id}/deactivate
     [HttpPut("{id}/deactivate")]
-    [Authorize(Roles = "Administrator,CSR")] // Admin and CSR can deactivate user accounts
+    //[Authorize(Roles = "Administrator,CSR")] // Admin and CSR can deactivate user accounts
     public async Task<ActionResult> DeactivateUser(string id)
     {
         var user = await _userService.GetUserByIdAsync(id);
