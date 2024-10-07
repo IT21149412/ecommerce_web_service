@@ -85,9 +85,9 @@ public class OrderService
     public async Task CancelOrderAsync(string id, string note)
     {
         var order = await GetOrderByIdAsync(id);
-        if (order != null && order.Status == "Processing")
+        if (order != null && order.OrderStatus == "Processing")
         {
-            order.Status = "Cancelled";
+            order.OrderStatus = "Cancelled";
             order.Note = note;
             await UpdateOrderAsync(id, order);
         }
@@ -99,7 +99,7 @@ public class OrderService
         var order = await GetOrderByIdAsync(id);
         if (order != null)
         {
-            order.Status = "Delivered";
+            order.OrderStatus = "Delivered";
             await UpdateOrderAsync(id, order);
         }
     }
@@ -108,7 +108,7 @@ public class OrderService
     public async Task MarkOrderPartiallyDeliveredAsync(string id, string vendorId)
     {
         var order = await GetOrderByIdAsync(id);
-        if (order != null && order.Status == "Processing")
+        if (order != null && order.OrderStatus == "Processing")
         {
             var vendorStatus = order.VendorStatuses.Find(v => v.VendorId == vendorId);
             if (vendorStatus != null)
@@ -118,7 +118,7 @@ public class OrderService
 
             if (order.VendorStatuses.TrueForAll(v => v.IsDelivered))
             {
-                order.Status = "Delivered";
+                order.OrderStatus = "Delivered";
             }
             else
             {
@@ -147,7 +147,7 @@ public class OrderService
         // Check if any order has the product in "Processing" or other non-final statuses
         var count = await _orders.CountDocumentsAsync(order => 
             order.Items.Any(item => item.ProductId == productId) && 
-            (order.Status == "Processing" || order.Status == "Partially Delivered"));
+            (order.OrderStatus == "Processing" || order.OrderStatus == "Partially Delivered"));
 
         return count > 0;
     }
