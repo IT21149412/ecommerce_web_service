@@ -17,7 +17,7 @@ public class UserController : ControllerBase
 
     // GET: api/user
     [HttpGet]
-    [Authorize(Roles = "Administrator,CSR")] // Only Admins can view all users
+    [Authorize(Roles = "Administrator")] // Only Admins can view all users
     public async Task<ActionResult> GetUsers()
     {
         var users = await _userService.GetUsersAsync();
@@ -53,7 +53,7 @@ public class UserController : ControllerBase
         }
 
         var token = _tokenService.GenerateJwtToken(user);
-        return Ok(new { token, role = user.Role });
+        return Ok(new { token, role = user.Role , isActive = user.IsActive});
     }
 
     // GET: api/user/{id}
@@ -71,7 +71,7 @@ public class UserController : ControllerBase
 
     // PUT: api/User/{id}/update
     [HttpPut("{id}/update")]
-    [Authorize(Roles = "Administrator,CSR")]  // Only Administrator and csr can update user details
+    //[Authorize(Roles = "Administrator,CSR")]  // Only Administrator and csr can update user details
     public async Task<IActionResult> UpdateUser(string id, [FromBody] User updatedUser)
     {
         var user = await _userService.GetUserByIdAsync(id);
