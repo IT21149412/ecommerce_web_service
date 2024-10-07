@@ -1,3 +1,13 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       Product.cs
+ * Description: 
+ *             Defines the Product class for representing products in the system. 
+ *             Each product has attributes such as name, description, price, stock, 
+ *             category ID, vendor ID, and flags for activation and low stock.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;

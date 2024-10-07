@@ -1,3 +1,14 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       Program.cs
+ * Description: 
+ *             This file configures and starts the ASP.NET Core Web API application. 
+ *             It sets up essential services like MongoDB, JWT-based authentication, 
+ *             CORS, and Swagger for API documentation. Environment variables are used 
+ *             to configure MongoDB connection, database name, and JWT secret.
+ * ------------------------------------------------------------------------------
+ */
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

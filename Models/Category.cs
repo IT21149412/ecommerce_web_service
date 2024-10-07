@@ -1,3 +1,14 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       Category.cs
+ * Description: 
+ *             Defines the Category class for representing product categories in 
+ *             the system. Each category has an ID, a name, an activation status, 
+ *             and a creation timestamp. It is used to categorize products in the 
+ *             product catalog.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;

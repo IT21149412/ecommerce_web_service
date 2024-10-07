@@ -1,3 +1,13 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       UserService.cs
+ * Description: 
+ *             Handles user management services such as user authentication, 
+ *             creation, updating, deletion, and retrieval from the MongoDB database. 
+ *             It includes password hashing and verification using BCrypt.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;

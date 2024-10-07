@@ -1,3 +1,13 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       ProductService.cs
+ * Description: 
+ *             Manages product-related operations such as creation, updating, 
+ *             activation, and deactivation of products. It also includes inventory 
+ *             management services such as stock updates and low-stock notifications.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;

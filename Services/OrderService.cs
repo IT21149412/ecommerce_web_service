@@ -1,3 +1,13 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       OrderService.cs
+ * Description: 
+ *             Provides services for managing customer orders in the system. 
+ *             This includes creating orders, updating order statuses, 
+ *             checking for stock availability, and managing vendor-specific deliveries.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,3 +1,13 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       VendorReview.cs
+ * Description: 
+ *             Defines the VendorReview class to represent reviews left by customers 
+ *             for vendors. It includes the vendor ID, customer ID, comment, rating, 
+ *             and a creation timestamp.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;

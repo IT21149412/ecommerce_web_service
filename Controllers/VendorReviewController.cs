@@ -1,3 +1,15 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       VendorReviewController.cs
+ * Description: 
+ *             This file defines the VendorReviewController class, which provides 
+ *             API endpoints for managing vendor reviews. It allows customers to 
+ *             add, update, and fetch reviews for vendors. The controller also 
+ *             provides functionality to calculate and retrieve vendor ratings, 
+ *             and restricts access based on user roles.
+ * ------------------------------------------------------------------------------
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Security.Claims;

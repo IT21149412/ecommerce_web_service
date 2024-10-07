@@ -1,3 +1,13 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       CategoryService.cs
+ * Description: 
+ *             Provides services related to managing product categories. 
+ *             It includes methods for fetching, creating, and updating categories 
+ *             in the MongoDB database.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;

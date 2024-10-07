@@ -1,3 +1,16 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       ProductController.cs
+ * Description: 
+ *             This file defines the ProductController class, which provides API 
+ *             endpoints for managing products in the system. It allows vendors 
+ *             and administrators to create, update, delete, activate, and deactivate 
+ *             products. Additionally, it provides anonymous access for viewing 
+ *             products and allows vendors to manage their own products using JWT 
+ *             authentication.
+ * ------------------------------------------------------------------------------
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;

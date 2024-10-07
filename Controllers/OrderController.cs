@@ -1,3 +1,16 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       OrderController.cs
+ * Description: 
+ *             This file defines the OrderController class, which provides API 
+ *             endpoints for managing customer orders. It allows the creation, 
+ *             retrieval, cancellation, and updating of order statuses such as 
+ *             marking orders as delivered or partially delivered. The controller 
+ *             supports access for customers, vendors, and administrators using 
+ *             role-based authorization.
+ * ------------------------------------------------------------------------------
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;

@@ -1,3 +1,16 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       UserController.cs
+ * Description: 
+ *             This file defines the UserController class, which provides API 
+ *             endpoints for managing user accounts. It includes functionalities 
+ *             such as user registration, login, activation, deactivation, and 
+ *             deletion. The controller allows for role-based management of users,
+ *             including customers, vendors, and administrators, with appropriate 
+ *             access controls.
+ * ------------------------------------------------------------------------------
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;

@@ -1,3 +1,14 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       Order.cs
+ * Description: 
+ *             Defines the Order class to represent customer orders. It includes 
+ *             details like the customer ID, order items, status, created date, 
+ *             and vendor statuses. Each order contains a list of order items 
+ *             and total price.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;

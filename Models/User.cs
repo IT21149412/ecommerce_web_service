@@ -1,3 +1,13 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       User.cs
+ * Description: 
+ *             Defines the User class to represent users in the system. It includes 
+ *             attributes like name, email, password, role, activation status, 
+ *             creation date, and last login timestamp.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       TokenService.cs
+ * Description: 
+ *             Provides JWT (JSON Web Token) generation services for user authentication. 
+ *             It generates tokens that include user information like ID, role, and email.
+ * ------------------------------------------------------------------------------
+ */
+
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

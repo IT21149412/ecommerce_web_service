@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       VendorReviewService.cs
+ * Description: 
+ *             Manages vendor reviews by customers. Provides functionality to add, 
+ *             retrieve, and update reviews, as well as calculate average ratings for vendors.
+ * ------------------------------------------------------------------------------
+ */
+
 using MongoDB.Driver;
 using System.Threading.Tasks;
 using System.Collections.Generic;

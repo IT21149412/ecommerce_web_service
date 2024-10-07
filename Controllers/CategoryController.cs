@@ -1,3 +1,17 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       CategoryController.cs
+ * Description: 
+ *             This file defines the CategoryController class, which provides API 
+ *             endpoints for managing product categories in the system. It allows 
+ *             authorized administrators to create, activate, and deactivate 
+ *             categories, as well as manage the activation status of products 
+ *             under a category. All categories can be retrieved via a public 
+ *             endpoint.
+ * 
+ * ------------------------------------------------------------------------------
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;

@@ -1,3 +1,14 @@
+/*
+ * ------------------------------------------------------------------------------
+ * File:       InventoryController.cs
+ * Description: 
+ *             This file defines the InventoryController class, which provides API 
+ *             endpoints for managing and monitoring product inventory. It allows 
+ *             authorized users (Administrators and Vendors) to check stock levels, 
+ *             update stock levels, and send notifications for low stock products.
+ * ------------------------------------------------------------------------------
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
