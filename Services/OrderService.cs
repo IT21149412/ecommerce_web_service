@@ -20,7 +20,7 @@ public class OrderService
     public OrderService(MongoDbContext context)
     {
         _orders = context.Orders;
-        _products = context.Products;  // Initialize Product collection
+        _products = context.Products;  
     }
 
     // Create a new order
@@ -44,8 +44,9 @@ public class OrderService
                 throw new InvalidOperationException($"Not enough stock for product {product.Name}.");
             }
 
-            // Set the price for each item
+            // Set the price and name for each item
             item.Price = product.Price;
+            item.ProductName = product.Name;
 
             // Calculate the total price for this item
             item.TotalPrice = item.Price * item.Quantity;
@@ -68,7 +69,6 @@ public class OrderService
         await _orders.InsertOneAsync(order);
     }
 
-
     // Update order status or details
     public async Task UpdateOrderAsync(string id, Order updatedOrder)
     {
@@ -85,7 +85,7 @@ public class OrderService
     public async Task CancelOrderAsync(string id, string note)
     {
         var order = await GetOrderByIdAsync(id);
-        if (order != null && order.OrderStatus == "Processing")
+        if (order != null && order.OrderStatus == "Purchased")
         {
             order.OrderStatus = "Cancelled";
             order.Note = note;
@@ -108,7 +108,7 @@ public class OrderService
     public async Task MarkOrderPartiallyDeliveredAsync(string id, string vendorId)
     {
         var order = await GetOrderByIdAsync(id);
-        if (order != null && order.OrderStatus == "Processing")
+        if (order != null && order.OrderStatus == "Purchased")
         {
             var vendorStatus = order.VendorStatuses.Find(v => v.VendorId == vendorId);
             if (vendorStatus != null)
@@ -116,6 +116,7 @@ public class OrderService
                 vendorStatus.IsDelivered = true;
             }
 
+            // Check if all vendor statuses are marked as delivered
             if (order.VendorStatuses.TrueForAll(v => v.IsDelivered))
             {
                 order.OrderStatus = "Delivered";
@@ -135,19 +136,20 @@ public class OrderService
         return await _orders.Find(order => order.CustomerId == customerId).ToListAsync();
     }
 
+    // Get all orders by vendor
     public async Task<List<Order>> GetOrdersByVendorIdAsync(string vendorId)
     {
-        return await _orders.Find(order => order.VendorId == vendorId).ToListAsync();  
+        return await _orders.Find(order => 
+            order.Items.Any(item => item.VendorId == vendorId)).ToListAsync();  
     }
-
 
     // Check if there are any pending orders containing the given product
     public async Task<bool> HasPendingOrdersForProductAsync(string productId)
     {
-        // Check if any order has the product in "Processing" or other non-final statuses
+        // Check if any order has the product in "Purchased" or other non-final statuses
         var count = await _orders.CountDocumentsAsync(order => 
             order.Items.Any(item => item.ProductId == productId) && 
-            (order.OrderStatus == "Processing" || order.OrderStatus == "Partially Delivered"));
+            (order.OrderStatus == "Purchased" || order.OrderStatus == "Partially Delivered"));
 
         return count > 0;
     }

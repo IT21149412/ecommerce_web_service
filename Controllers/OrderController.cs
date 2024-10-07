@@ -50,7 +50,6 @@ public class OrderController : ControllerBase
         return Ok(new { message = "Order created successfully.", order });
     }
 
-
     // Get order by ID
     [HttpGet("{id}")]
     [Authorize(Roles = "CSR, Administrator, Vendor, Customer")]
@@ -105,12 +104,12 @@ public class OrderController : ControllerBase
         return Ok(orders);
     }
 
+    // Get all orders for a vendor
     [HttpGet("vendor/{vendorId}")]
-    [Authorize(Roles = " Vendor")]
+    [Authorize(Roles = "Vendor")]
     public async Task<ActionResult<List<Order>>> GetOrdersByVendorId(string vendorId)
     {
-        var orders = await _orderService.GetOrdersByVendorIdAsync(vendorId);   
+        var orders = await _orderService.GetOrdersByVendorIdAsync(vendorId);
         return Ok(orders);
     }
-
 }
