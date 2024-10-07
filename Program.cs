@@ -33,6 +33,7 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<VendorReviewService>();
+builder.Services.AddScoped<NotificationService>();
 
 builder.Services.AddSingleton(new TokenService(jwtSecret));
 

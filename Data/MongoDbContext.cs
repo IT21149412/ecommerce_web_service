@@ -16,5 +16,7 @@ public class MongoDbContext
     public IMongoCollection<Category> Categories => _db.GetCollection<Category>("Categories");
     public IMongoCollection<Order> Orders => _db.GetCollection<Order>("Orders");
     public IMongoCollection<VendorReview> VendorReviews => _db.GetCollection<VendorReview>("VendorReviews");
+    public IMongoCollection<Notification> Notifications =>_db.GetCollection<Notification>("Notifications");
+
 
 }
