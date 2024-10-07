@@ -47,7 +47,7 @@ public class OrderController : ControllerBase
         // Create the order and calculate the total price
         await _orderService.CreateOrderAsync(order);
 
-        return Ok("Order created successfully.");
+        return Ok(new { message = "Order created successfully.", order });
     }
 
 
