@@ -95,6 +95,16 @@ public class OrderController : ControllerBase
         return Ok("Order marked as partially delivered for vendor.");
     }
 
+    // Get all orders
+    [HttpGet]
+    [Authorize(Roles = "Administrator, CSR")] 
+    public async Task<ActionResult<List<Order>>> GetAllOrders()
+    {
+        var orders = await _orderService.GetAllOrdersAsync();
+        return Ok(orders);
+    }
+
+
     // Get all orders for a customer
     [HttpGet("customer/{customerId}")]
     [Authorize(Roles = "Customer, Administrator")]

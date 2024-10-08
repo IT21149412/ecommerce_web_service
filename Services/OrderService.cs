@@ -130,6 +130,13 @@ public class OrderService
         }
     }
 
+    //get all orders
+    public async Task<List<Order>> GetAllOrdersAsync()
+    {
+        return await _orders.Find(order => true).ToListAsync();
+    }
+
+
     // Get all orders by customer
     public async Task<List<Order>> GetOrdersByCustomerIdAsync(string customerId)
     {
